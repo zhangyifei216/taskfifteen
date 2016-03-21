@@ -1,0 +1,106 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <ul id="source">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>广州空气质量：<b>50</b></li>
+    <li>深圳空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
+
+<script type="text/javascript">
+
+/**
+ * getData方法
+ * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+ * 返回一个数组，格式见函数中示例
+ */
+function getData() {
+  var data = [];
+  var df = [];
+  var liarr = [];
+  var Ali = document.getElementById('source').getElementsByTagName('li');
+  //alert(Ali.length);
+  for(var i=0;i<Ali.length;i++){ 
+    var con = Ali[i].innerHTML;
+    df.push(con.split('：')[0]);  //split将字符串转换为数组
+    var Alib = Ali[i].getElementsByTagName('b')[0].innerHTML;
+    liarr.push(Alib);
+  }
+  for(var i=0;i<df.length;i++){
+    data[i] = [[df[i]],[liarr[i]]];
+  }
+  //alert(data);
+  return data;
+
+}
+
+/**
+ * sortAqiData
+ * 按空气质量对data进行从小到大的排序
+ * 返回一个排序后的数组
+ */
+function sortAqiData(data) {
+  data.sort(function(a,b){
+    return a[1] - b[1];  //二维数组的从小到大的排序
+  })
+  return data;
+}
+
+/**
+ * render
+ * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+ * 格式见ul中的注释的部分
+ */
+
+function render(data) {
+  var rst = document.getElementById('resort');
+  var arr = [];
+  for(var i in data){
+    arr.push('<li>第'+(parseInt(i)+1)+'名：'+data[i][0]+'：<b>'+data[i][1]+'</b></li>');
+  }
+  alert(arr);
+  rst.innerHTML = arr.join(''); //将数组转换为字符串
+}
+
+function btnHandle() {
+  var aqiData = getData();
+  aqiData = sortAqiData(aqiData);
+  render(aqiData);
+}
+
+
+function init() {
+
+  // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+  var btn = document.getElementById('sort-btn');
+  btn.addEventListener('click',function(){
+    btnHandle();
+  })
+
+}
+
+init();
+
+</script>
+</body>
+</html>
